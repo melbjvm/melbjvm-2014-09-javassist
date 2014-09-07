@@ -1,0 +1,28 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+version = '1.0'
+
+defaultTasks = ['clean','run']
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'javassist:javassist:3.12.1.GA'
+}
+
+task enhance(dependsOn: [compileJava], type: JavaExec) {
+    main = 'sys.internal.Enhancement'
+    classpath = sourceSets.main.runtimeClasspath
+    args = ["$buildDir/classes/main"]
+  
+
+}
+task run(dependsOn: enhance, type: JavaExec) {
+    main = 'sys.AppServer'
+    classpath = sourceSets.main.runtimeClasspath
+    args = ["biz.MyApp"]
+}
+
